@@ -12,6 +12,7 @@ from tap_rillet.streams import (
     BillsStream,
     TaxRatesStream,
     VendorsStream,
+    SubsidiariesStream,
 )
 
 STREAM_TYPES = [
@@ -19,6 +20,7 @@ STREAM_TYPES = [
     VendorsStream,
     AccountsStream,
     TaxRatesStream,
+    SubsidiariesStream,
 ]
 
 
@@ -27,7 +29,6 @@ class TapRillet(Tap):
 
     name = "tap-rillet"
 
-    # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property(
             "start_date",
