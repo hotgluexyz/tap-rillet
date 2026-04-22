@@ -135,3 +135,19 @@ class TaxRatesStream(RilletStream):
         th.Property("percentage", th.StringType),
         th.Property("description", th.StringType),
     ).to_dict()
+
+
+class SubsidiariesStream(RilletStream):
+    "Stream for Rillet subsidiaries"
+
+    name = "subsidiaries"
+    path = "/subsidiaries"
+    records_jsonpath = "$.subsidiaries[*]"
+    primary_keys = ["id"]
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType),
+        th.Property("currency", th.StringType),
+        th.Property("timezone", th.StringType),
+        th.Property("trade_name", th.StringType),
+        th.Property("type", th.StringType),
+    ).to_dict()

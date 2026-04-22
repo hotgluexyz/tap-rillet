@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tap-rillet"
-dynamic = ["version"]
+version = "0.0.1"
 description = "Singer tap for Rillet, built with Hotglue's hotglue_singer_sdk."
 readme = "README.md"
 authors = [{ name = "Hotglue"}]
@@ -58,7 +58,6 @@ typing = [
 
 [tool.hatch.version]
 fallback-version = "0.1.0.dev0"
-source = "vcs"
 
 [tool.mypy]
 enable_error_code = [
