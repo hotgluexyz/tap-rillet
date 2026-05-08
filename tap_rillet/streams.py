@@ -94,6 +94,7 @@ class VendorsStream(RilletStream):
             th.DateTimeType,
             description="Incremental replication cursor",
         ),
+        th.Property("tax_id", th.StringType),
     ).to_dict()
 
 
