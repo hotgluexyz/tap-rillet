@@ -16,6 +16,22 @@ _field = th.ObjectType(
     th.Property("field_value_id", th.StringType),
 )
 
+_field_definition_value = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("name", th.StringType),
+    th.Property("deactivated", th.BooleanType),
+)
+
+_field_definition_setting = th.ObjectType(
+    th.Property("mandatory", th.BooleanType),
+    th.Property("display", th.StringType),
+)
+
+_field_definition_settings = th.ObjectType(
+    th.Property("EXPENSES", _field_definition_setting),
+    th.Property("REVENUE", _field_definition_setting),
+)
+
 _bill_item = th.ObjectType(
     th.Property("description", th.StringType),
     th.Property("account_code", th.StringType),
@@ -135,6 +151,27 @@ class TaxRatesStream(RilletStream):
         th.Property("code", th.StringType),
         th.Property("percentage", th.StringType),
         th.Property("description", th.StringType),
+    ).to_dict()
+
+
+class FieldsStream(RilletStream):
+    """Stream for Rillet custom fields (``/fields``)."""
+
+    name = "fields"
+    path = "/fields"
+    records_jsonpath = "$.fields[*]"
+    primary_keys = ["id"]
+    replication_key = "updated_at"
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Field identifier"),
+        th.Property("name", th.StringType),
+        th.Property("values", th.ArrayType(_field_definition_value)),
+        th.Property("settings", _field_definition_settings),
+        th.Property(
+            "updated_at",
+            th.DateTimeType,
+            description="Incremental replication cursor",
+        ),
     ).to_dict()
 
 
