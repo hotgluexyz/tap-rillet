@@ -14,6 +14,10 @@ from tap_rillet.streams import (
     TaxRatesStream,
     VendorsStream,
     SubsidiariesStream,
+    JournalEntriesStream,
+    ReportsJournalEntriesStream,
+    ReportsIncomeStatementStream,
+    CustomFieldsStream,
 )
 
 STREAM_TYPES = [
@@ -23,6 +27,10 @@ STREAM_TYPES = [
     TaxRatesStream,
     FieldsStream,
     SubsidiariesStream,
+    JournalEntriesStream,
+    ReportsJournalEntriesStream,
+    ReportsIncomeStatementStream,
+    CustomFieldsStream,
 ]
 
 
@@ -60,6 +68,24 @@ class TapRillet(Tap):
             "subsidiary",
             th.StringType,
             description="The subsidiary to use to sync bills",
+            default=None,
+        ),
+        th.Property(
+            "from_date",
+            th.DateType,
+            description=(
+                "Start date (YYYY-MM-DD) for the income statement report. "
+                "Falls back to start_date when omitted."
+            ),
+            default=None,
+        ),
+        th.Property(
+            "to_date",
+            th.DateType,
+            description=(
+                "End date (YYYY-MM-DD) for the income statement report. "
+                "Defaults to today when omitted."
+            ),
             default=None,
         ),
     ).to_dict()

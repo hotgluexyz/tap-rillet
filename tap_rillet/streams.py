@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Any, Optional
+
+import pendulum
 from hotglue_singer_sdk import typing as th
+from typing_extensions import override
 
 from tap_rillet.client import RilletStream
 
@@ -188,4 +192,240 @@ class SubsidiariesStream(RilletStream):
         th.Property("timezone", th.StringType),
         th.Property("trade_name", th.StringType),
         th.Property("type", th.StringType),
+    ).to_dict()
+
+
+_exchange_rate = th.ObjectType(
+    th.Property("base", th.StringType),
+    th.Property("target", th.StringType),
+    th.Property("rate", th.StringType),
+    th.Property("date", th.StringType),
+)
+
+_related_entity = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("type", th.StringType),
+)
+
+_journal_entry_item = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("description", th.StringType),
+    th.Property("amount", _bill_amount),
+    th.Property("account_id", th.StringType),
+    th.Property("account_code", th.StringType),
+    th.Property("side", th.StringType),
+    th.Property("fields", th.ArrayType(_field)),
+)
+
+_report_journal_entry_item = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("description", th.StringType),
+    th.Property("local_amount", _bill_amount),
+    th.Property("reporting_amount", _bill_amount),
+    th.Property("exchange_rate", th.StringType),
+    th.Property("account_id", th.StringType),
+    th.Property("account_code", th.StringType),
+    th.Property("side", th.StringType),
+    th.Property("fields", th.ArrayType(_field)),
+)
+
+
+class JournalEntriesStream(RilletStream):
+    """Stream for Rillet journal entries (``/journal-entries``)."""
+
+    name = "journal_entries"
+    path = "/journal-entries"
+    records_jsonpath = "$.journal_entries[*]"
+    primary_keys = ["id"]
+    replication_key = "updated_at"
+
+    @property
+    def subsidiary(self) -> str:
+        return self.config.get("subsidiary")
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Journal entry identifier"),
+        th.Property("subsidiary_id", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("currency", th.StringType),
+        th.Property("date", th.StringType, description="Posting date to GL"),
+        th.Property("reversal_date", th.StringType),
+        th.Property("attachmentUrl", th.StringType),
+        th.Property("exchange_rate", _exchange_rate),
+        th.Property("related_entity", _related_entity),
+        th.Property("items", th.ArrayType(_journal_entry_item)),
+        th.Property(
+            "updated_at",
+            th.DateTimeType,
+            description="Incremental replication cursor",
+        ),
+    ).to_dict()
+
+
+class ReportsJournalEntriesStream(RilletStream):
+    """Stream for Rillet reports journal entries (``/reports/journal-entries``)."""
+
+    name = "reports_journal_entries"
+    path = "/reports/journal-entries"
+    records_jsonpath = "$.journal_entries[*]"
+    primary_keys = ["id"]
+
+    @property
+    def subsidiary(self) -> str:
+        return self.config.get("subsidiary")
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Journal entry identifier"),
+        th.Property("subsidiary_id", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("related_entity", _related_entity),
+        th.Property("items", th.ArrayType(_report_journal_entry_item)),
+        th.Property("date", th.StringType),
+        th.Property("reversal_date", th.StringType),
+        th.Property("attachmentUrl", th.StringType),
+    ).to_dict()
+
+
+_rounded_amount = th.ObjectType(
+    th.Property("amount", th.StringType),
+    th.Property("currency", th.StringType),
+)
+
+_breakdown_balance = th.ObjectType(
+    th.Property("breakdown_id", th.StringType),
+    th.Property("amount", _rounded_amount),
+)
+
+_breakdown_margin = th.ObjectType(
+    th.Property("breakdown_id", th.StringType),
+    th.Property("value", th.NumberType),
+)
+
+_report_account_entry = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("code", th.StringType),
+    th.Property("name", th.StringType),
+    th.Property("balances", th.ArrayType(_breakdown_balance)),
+)
+
+# Nested account groups can recurse; capture the inner level explicitly and
+# allow arbitrary further nesting via a permissive ObjectType.
+_report_account_group = th.ObjectType(
+    th.Property("name", th.StringType),
+    th.Property("totals", th.ArrayType(_breakdown_balance)),
+    th.Property("accounts", th.ArrayType(_report_account_entry)),
+    th.Property("groups", th.ArrayType(th.ObjectType())),
+)
+
+_report_section = th.ObjectType(
+    th.Property("name", th.StringType),
+    th.Property("totals", th.ArrayType(_breakdown_balance)),
+    th.Property("groups", th.ArrayType(_report_account_group)),
+    th.Property("accounts", th.ArrayType(_report_account_entry)),
+)
+
+_report_summary_line = th.ObjectType(
+    th.Property("name", th.StringType),
+    th.Property("amounts", th.ArrayType(_breakdown_balance)),
+    th.Property("margins", th.ArrayType(_breakdown_margin)),
+)
+
+_report_breakdown = th.ObjectType(
+    th.Property("type", th.StringType),
+    th.Property("name", th.StringType),
+    th.Property("id", th.StringType),
+)
+
+
+class ReportsIncomeStatementStream(RilletStream):
+    """Stream for Rillet income statement report (``/reports/income-statement``).
+
+    This endpoint returns a single report object (not a paginated list) for the
+    requested date range, so the whole response body is emitted as one record.
+    """
+
+    name = "reports_income_statement"
+    path = "/reports/income-statement"
+    records_jsonpath = "$"
+    primary_keys = []
+    next_page_token_jsonpath = None  # single-object response, no pagination
+
+    @property
+    def subsidiary(self) -> str:
+        return self.config.get("subsidiary")
+
+    schema = th.PropertiesList(
+        th.Property(
+            "period",
+            th.ObjectType(
+                th.Property("from_date", th.StringType),
+                th.Property("to_date", th.StringType),
+            ),
+        ),
+        th.Property("currency", th.StringType),
+        th.Property("breakdowns", th.ArrayType(_report_breakdown)),
+        th.Property("sections", th.ArrayType(_report_section)),
+        th.Property("summaries", th.ArrayType(_report_summary_line)),
+    ).to_dict()
+
+    @override
+    def get_url_params(
+        self,
+        context: Optional[dict],
+        next_page_token: Any | None,
+    ) -> dict[str, Any]:
+        """Build the required ``from_date``/``to_date`` range for the report."""
+        params: dict[str, Any] = {}
+
+        from_date = self.config.get("from_date")
+        if from_date is None:
+            start = self.config.get("start_date")
+            from_date = (
+                pendulum.parse(start).to_date_string() if start else "2000-01-01"
+            )
+        to_date = self.config.get("to_date") or pendulum.now("UTC").to_date_string()
+
+        params["from_date"] = from_date
+        params["to_date"] = to_date
+        if self.subsidiary:
+            params["subsidiary_id"] = self.subsidiary
+        return params
+
+
+_field_value = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("name", th.StringType),
+    th.Property("deactivated", th.BooleanType),
+)
+
+_field_context_settings = th.ObjectType(
+    th.Property("mandatory", th.BooleanType),
+    th.Property("display", th.StringType),
+)
+
+_field_settings = th.ObjectType(
+    th.Property("EXPENSES", _field_context_settings),
+    th.Property("REVENUE", _field_context_settings),
+)
+
+
+class CustomFieldsStream(RilletStream):
+    """Stream for Rillet custom field definitions (``/fields``)."""
+
+    name = "custom_fields"
+    path = "/fields"
+    records_jsonpath = "$.fields[*]"
+    primary_keys = ["id"]
+    replication_key = "updated_at"
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Custom field identifier"),
+        th.Property("name", th.StringType),
+        th.Property("values", th.ArrayType(_field_value)),
+        th.Property("settings", _field_settings),
+        th.Property(
+            "updated_at",
+            th.DateTimeType,
+            description="Incremental replication cursor",
+        ),
     ).to_dict()
