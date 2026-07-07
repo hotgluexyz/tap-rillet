@@ -23,7 +23,6 @@ A [Singer](https://www.singer.io/) tap that extracts data from **Rillet**. It is
 | `journal_entries` | `/journal-entries` | `$.journal_entries[*]` | `id` | `updated_at` |
 | `reports_journal_entries` | `/reports/journal-entries` | `$.journal_entries[*]` | `id` | — (full table) |
 | `reports_income_statement` | `/reports/income-statement` | `$` | — | — (single-object report) |
-| `custom_fields` | `/fields` | `$.fields[*]` | `id` | `updated_at` |
 
 ### Stream schemas (summary)
 
@@ -37,7 +36,6 @@ Schemas are defined in `tap_rillet/streams.py` (`th.PropertiesList`). Summary of
 - **`journal_entries`**: `id`, `subsidiary_id`, `name`, `currency`, `date`, `reversal_date`, `attachmentUrl`, `exchange_rate` {`base`, `target`, `rate`, `date`}, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `amount` {`amount`, `currency`}, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `updated_at`.
 - **`reports_journal_entries`**: `id`, `subsidiary_id`, `name`, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `local_amount` {`amount`, `currency`}, `reporting_amount` {`amount`, `currency`}, `exchange_rate`, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `date`, `reversal_date`, `attachmentUrl`.
 - **`reports_income_statement`**: single report object per sync (`from_date`/`to_date` range): `period` {`from_date`, `to_date`}, `currency`, `breakdowns`, `sections` (nested `groups`/`accounts`/`balances`), `summaries`.
-- **`custom_fields`**: `id`, `name`, `values` (pick-list values with `id`, `name`, `deactivated`), `settings` {`EXPENSES`, `REVENUE` each with `mandatory`, `display`}, `updated_at`.
 
 If the API returns list keys that differ (for example under `/tax-rates`), adjust `records_jsonpath` on the stream class.
 

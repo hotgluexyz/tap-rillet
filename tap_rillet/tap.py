@@ -17,7 +17,6 @@ from tap_rillet.streams import (
     JournalEntriesStream,
     ReportsJournalEntriesStream,
     ReportsIncomeStatementStream,
-    CustomFieldsStream,
 )
 
 STREAM_TYPES = [
@@ -30,7 +29,6 @@ STREAM_TYPES = [
     JournalEntriesStream,
     ReportsJournalEntriesStream,
     ReportsIncomeStatementStream,
-    CustomFieldsStream,
 ]
 
 
