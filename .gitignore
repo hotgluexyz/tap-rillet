@@ -2,6 +2,15 @@
 config.json
 .secrets/
 
+# Hotglue tap exception dumps (may contain sensitive data)
+hg-tap-exception-*.json
+
+# Captured Singer output
+*.singer
+
+# macOS
+.DS_Store
+
 # Ignore meltano internal cache and sqlite systemdb
 
 .meltano/

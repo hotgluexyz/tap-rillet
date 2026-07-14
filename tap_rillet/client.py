@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Callable, Generator, Optional
 
+import backoff
 import pendulum
 import requests
 from hotglue_singer_sdk.authenticators import BearerTokenAuthenticator
+from hotglue_singer_sdk.helpers._network import giveup_oserror_not_transient_network
 from hotglue_singer_sdk.helpers.jsonpath import extract_jsonpath
 from hotglue_singer_sdk.streams import RESTStream
 from typing_extensions import override
@@ -28,6 +30,9 @@ class RilletStream(RESTStream):
     records_jsonpath = "$[*]"
     next_page_token_jsonpath = "$.pagination.next_cursor"
     subsidiary = None
+    # Max page size allowed by the API (default is 25); fewer requests per sync
+    # keeps us under the rate limit.
+    page_size = 100
 
     @override
     @property
@@ -92,6 +97,8 @@ class RilletStream(RESTStream):
             A dictionary of URL query parameters.
         """
         params: dict[str, Any] = {}
+        if self.page_size:
+            params["limit"] = self.page_size
         if next_page_token:
             params["cursor"] = next_page_token
         if self.replication_key:
@@ -101,3 +108,38 @@ class RilletStream(RESTStream):
         if self.subsidiary:
             params["subsidiary_id"] = self.subsidiary
         return params
+
+    @override
+    def backoff_wait_generator(self) -> Callable[..., Generator[int, Any, None]]:
+        """Return a wait generator sized for Rillet's rate limit.
+
+        Rillet allows 60 requests per rolling one-minute window and returns a
+        bare 429 with no ``Retry-After`` or ``X-RateLimit-*`` headers, so the
+        retry schedule must be able to out-wait the full window. The SDK
+        default (``expo(factor=2)``, 5 tries, ~30s total) cannot.
+        """
+        return backoff.expo(factor=5, max_value=60)
+
+    @override
+    def backoff_max_tries(self) -> int:
+        """Allow enough attempts for the waits to span the one-minute window."""
+        return 8
+
+    @override
+    def request_decorator(self, func: Callable) -> Callable:
+        """Decorate the request method with retry behaviour.
+
+        Same wiring as the SDK default, but with ``jitter=None``: the default
+        full jitter draws each wait from ``uniform(0, value)``, which can
+        shrink the whole retry schedule below Rillet's one-minute rate-limit
+        window. Deterministic waits (5, 10, 20, 40, 60, 60, 60s) guarantee the
+        window clears before we give up.
+        """
+        return backoff.on_exception(
+            self.backoff_wait_generator,
+            self.backoff_exceptions(),
+            max_tries=self.backoff_max_tries,
+            on_backoff=self.backoff_handler,
+            giveup=giveup_oserror_not_transient_network,
+            jitter=None,
+        )(func)
