@@ -196,13 +196,6 @@ class SubsidiariesStream(RilletStream):
     ).to_dict()
 
 
-_exchange_rate = th.ObjectType(
-    th.Property("base", th.StringType),
-    th.Property("target", th.StringType),
-    th.Property("rate", th.StringType),
-    th.Property("date", th.StringType),
-)
-
 _related_entity = th.ObjectType(
     th.Property("id", th.StringType),
     th.Property("type", th.StringType),
@@ -252,7 +245,7 @@ class JournalEntriesStream(RilletStream):
         th.Property("date", th.StringType, description="Posting date to GL"),
         th.Property("reversal_date", th.StringType),
         th.Property("attachmentUrl", th.StringType),
-        th.Property("exchange_rate", _exchange_rate),
+        th.Property("exchange_rate", _bill_exchange_rate),
         th.Property("related_entity", _related_entity),
         th.Property("items", th.ArrayType(_journal_entry_item)),
         th.Property(
@@ -287,14 +280,9 @@ class ReportsJournalEntriesStream(RilletStream):
     ).to_dict()
 
 
-_rounded_amount = th.ObjectType(
-    th.Property("amount", th.StringType),
-    th.Property("currency", th.StringType),
-)
-
 _breakdown_balance = th.ObjectType(
     th.Property("breakdown_id", th.StringType),
-    th.Property("amount", _rounded_amount),
+    th.Property("amount", _bill_amount),
 )
 
 _breakdown_margin = th.ObjectType(
@@ -352,7 +340,7 @@ class ReportsIncomeStatementStream(RilletStream):
     name = "reports_income_statement"
     path = "/reports/income-statement"
     records_jsonpath = "$"
-    primary_keys = []
+    primary_keys = ["from_date", "to_date"]
     next_page_token_jsonpath = None  # months are advanced in get_next_page_token
 
     @property
@@ -390,6 +378,16 @@ class ReportsIncomeStatementStream(RilletStream):
 
     schema = th.PropertiesList(
         th.Property(
+            "from_date",
+            th.StringType,
+            description="Report month start; primary key (flattened from period)",
+        ),
+        th.Property(
+            "to_date",
+            th.StringType,
+            description="Report month end; primary key (flattened from period)",
+        ),
+        th.Property(
             "period",
             th.ObjectType(
                 th.Property("from_date", th.StringType),
@@ -401,6 +399,18 @@ class ReportsIncomeStatementStream(RilletStream):
         th.Property("sections", th.ArrayType(_report_section)),
         th.Property("summaries", th.ArrayType(_report_summary_line)),
     ).to_dict()
+
+    @override
+    def post_process(
+        self,
+        row: dict,
+        context: Optional[dict] = None,
+    ) -> Optional[dict]:
+        """Flatten the report period onto the record so months can be keyed."""
+        period = row.get("period") or {}
+        row["from_date"] = period.get("from_date")
+        row["to_date"] = period.get("to_date")
+        return row
 
     @override
     def get_url_params(
