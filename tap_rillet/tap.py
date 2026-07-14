@@ -68,24 +68,6 @@ class TapRillet(Tap):
             description="The subsidiary to use to sync bills",
             default=None,
         ),
-        th.Property(
-            "from_date",
-            th.DateType,
-            description=(
-                "Start date (YYYY-MM-DD) for the income statement report. "
-                "Falls back to start_date when omitted."
-            ),
-            default=None,
-        ),
-        th.Property(
-            "to_date",
-            th.DateType,
-            description=(
-                "End date (YYYY-MM-DD) for the income statement report. "
-                "Defaults to today when omitted."
-            ),
-            default=None,
-        ),
     ).to_dict()
 
     @override

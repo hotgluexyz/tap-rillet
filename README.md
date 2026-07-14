@@ -22,7 +22,7 @@ A [Singer](https://www.singer.io/) tap that extracts data from **Rillet**. It is
 | `subsidiaries` | `/subsidiaries` | `$.subsidiaries[*]` | `id` | — (full table) |
 | `journal_entries` | `/journal-entries` | `$.journal_entries[*]` | `id` | `updated_at` |
 | `reports_journal_entries` | `/reports/journal-entries` | `$.journal_entries[*]` | `id` | — (full table) |
-| `reports_income_statement` | `/reports/income-statement` | `$` | — | — (single-object report) |
+| `reports_income_statement` | `/reports/income-statement` | `$` | — | — (one report per month) |
 
 ### Stream schemas (summary)
 
@@ -35,7 +35,7 @@ Schemas are defined in `tap_rillet/streams.py` (`th.PropertiesList`). Summary of
 - **`subsidiaries`**: `id`, `currency`, `timezone`, `trade_name`, `type`.
 - **`journal_entries`**: `id`, `subsidiary_id`, `name`, `currency`, `date`, `reversal_date`, `attachmentUrl`, `exchange_rate` {`base`, `target`, `rate`, `date`}, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `amount` {`amount`, `currency`}, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `updated_at`.
 - **`reports_journal_entries`**: `id`, `subsidiary_id`, `name`, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `local_amount` {`amount`, `currency`}, `reporting_amount` {`amount`, `currency`}, `exchange_rate`, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `date`, `reversal_date`, `attachmentUrl`.
-- **`reports_income_statement`**: single report object per sync (`from_date`/`to_date` range): `period` {`from_date`, `to_date`}, `currency`, `breakdowns`, `sections` (nested `groups`/`accounts`/`balances`), `summaries`.
+- **`reports_income_statement`**: one report record per calendar month from `start_date` through today: `period` {`from_date`, `to_date`}, `currency`, `breakdowns`, `sections` (nested `groups`/`accounts`/`balances`), `summaries`.
 
 If the API returns list keys that differ (for example under `/tax-rates`), adjust `records_jsonpath` on the stream class.
 
@@ -77,8 +77,6 @@ tap-rillet --help
 | `sandbox` | boolean | no | `false` | Use `https://sandbox.api.rillet.com`. |
 | `api_version` | string | no | `3` | Sent as `X-Rillet-API-Version`. |
 | `subsidiary` | string | no | — | If set, adds `subsidiary_id` to list requests (e.g. bills). |
-| `from_date` | string (date) | no | falls back to `start_date` | Start date (`YYYY-MM-DD`) for the `reports_income_statement` report. |
-| `to_date` | string (date) | no | today | End date (`YYYY-MM-DD`) for the `reports_income_statement` report. |
 
 Run `tap-rillet --about` (or `tap-rillet --about --format=markdown`) for the authoritative schema for your installed version.
 

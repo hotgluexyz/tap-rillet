@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 import pendulum
+import requests
 from hotglue_singer_sdk import typing as th
 from typing_extensions import override
 
@@ -340,19 +341,52 @@ _report_breakdown = th.ObjectType(
 class ReportsIncomeStatementStream(RilletStream):
     """Stream for Rillet income statement report (``/reports/income-statement``).
 
-    This endpoint returns a single report object (not a paginated list) for the
-    requested date range, so the whole response body is emitted as one record.
+    The endpoint returns a single report object for a requested date range.
+    The stream iterates calendar months from ``start_date`` through today via
+    the pagination hooks (each month window acts as the page token) and emits
+    one report record per month; each record's ``period`` object carries the
+    month's ``from_date``/``to_date``. Month windows are kept out of
+    ``partitions`` so state stays a single stream-level entry.
     """
 
     name = "reports_income_statement"
     path = "/reports/income-statement"
     records_jsonpath = "$"
     primary_keys = []
-    next_page_token_jsonpath = None  # single-object response, no pagination
+    next_page_token_jsonpath = None  # months are advanced in get_next_page_token
 
     @property
     def subsidiary(self) -> str:
         return self.config.get("subsidiary")
+
+    def _sync_range(self) -> tuple[Any, Any]:
+        """Return the (start, today) date bounds for the monthly iteration."""
+        start = pendulum.parse(
+            self.config.get("start_date", "2000-01-01")
+        ).in_timezone("UTC").date()
+        today = pendulum.now("UTC").date()
+        return start, today
+
+    @override
+    def get_next_page_token(
+        self,
+        response: requests.Response,
+        previous_token: Any | None,
+    ) -> Optional[dict]:
+        """Advance to the next month window; None once today's month is done."""
+        start, today = self._sync_range()
+        current_from = (
+            pendulum.parse(previous_token["from_date"]).date()
+            if previous_token
+            else start
+        )
+        next_month = current_from.start_of("month").add(months=1)
+        if next_month > today:
+            return None
+        return {
+            "from_date": next_month.to_date_string(),
+            "to_date": min(next_month.end_of("month"), today).to_date_string(),
+        }
 
     schema = th.PropertiesList(
         th.Property(
@@ -374,19 +408,18 @@ class ReportsIncomeStatementStream(RilletStream):
         context: Optional[dict],
         next_page_token: Any | None,
     ) -> dict[str, Any]:
-        """Build the required ``from_date``/``to_date`` range for the report."""
-        params: dict[str, Any] = {}
-
-        from_date = self.config.get("from_date")
-        if from_date is None:
-            start = self.config.get("start_date")
-            from_date = (
-                pendulum.parse(start).to_date_string() if start else "2000-01-01"
-            )
-        to_date = self.config.get("to_date") or pendulum.now("UTC").to_date_string()
-
-        params["from_date"] = from_date
-        params["to_date"] = to_date
+        """Build the month window for the report from the page token."""
+        if next_page_token is None:
+            # First request: the (possibly partial) month containing start_date.
+            start, today = self._sync_range()
+            next_page_token = {
+                "from_date": start.to_date_string(),
+                "to_date": min(start.end_of("month"), today).to_date_string(),
+            }
+        params: dict[str, Any] = {
+            "from_date": next_page_token["from_date"],
+            "to_date": next_page_token["to_date"],
+        }
         if self.subsidiary:
             params["subsidiary_id"] = self.subsidiary
         return params
