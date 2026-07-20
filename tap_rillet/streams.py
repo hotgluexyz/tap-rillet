@@ -598,7 +598,7 @@ class ContractItemsStream(ContractsStream):
     @override
     def parse_response(self, response: requests.Response) -> Any:
         """Flatten ``items`` out of each contract, tagging the contract id."""
-        for contract in response.json().get("contracts", []):
+        for contract in response.json().get("contracts") or []:
             for item in contract.get("items") or []:
                 yield {**item, "contract_id": contract.get("id")}
 
