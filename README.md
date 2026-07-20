@@ -23,6 +23,10 @@ A [Singer](https://www.singer.io/) tap that extracts data from **Rillet**. It is
 | `journal_entries` | `/journal-entries` | `$.journal_entries[*]` | `id` | `updated_at` |
 | `reports_journal_entries` | `/reports/journal-entries` | `$.journal_entries[*]` | `id` | — (full table) |
 | `reports_income_statement` | `/reports/income-statement` | `$` | `from_date`, `to_date` | — (one report per month) |
+| `contracts` | `/contracts` | `$.contracts[*]` | `id` | — (full table) |
+| `contract_items` | `/contracts` | `$.contracts[*].items[*]` (flattened) | `id` | — (full table) |
+| `products` | `/products` | `$.products[*]` | `id` | — (full table) |
+| `customers` | `/customers` | `$.customers[*]` | `id` | `updated_at` |
 
 ### Stream schemas (summary)
 
@@ -36,6 +40,10 @@ Schemas are defined in `tap_rillet/streams.py` (`th.PropertiesList`). Summary of
 - **`journal_entries`**: `id`, `subsidiary_id`, `name`, `currency`, `date`, `reversal_date`, `attachmentUrl`, `exchange_rate` {`base`, `target`, `rate`, `date`}, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `amount` {`amount`, `currency`}, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `updated_at`.
 - **`reports_journal_entries`**: `id`, `subsidiary_id`, `name`, `related_entity` {`id`, `type`}, `items` (line items with `id`, `description`, `local_amount` {`amount`, `currency`}, `reporting_amount` {`amount`, `currency`}, `exchange_rate`, `account_id`, `account_code`, `side`, `fields` {`field_id`, `field_value_id`}), `date`, `reversal_date`, `attachmentUrl`.
 - **`reports_income_statement`**: one report record per calendar month from `start_date` through today: `from_date`/`to_date` (flattened from `period`, used as primary key), `period` {`from_date`, `to_date`}, `currency`, `breakdowns`, `sections` (nested `groups`/`accounts`/`balances`), `summaries`.
+- **`contracts`**: `id`, `customer_id`, `subsidiary_id`, `name`, `status`, `start_date`, `end_date`, `close_date`, `total_value` {`amount`, `currency`}, `invoicing` {`interval`, `payment_terms`, `day`, `month_day`}, `usage_configuration`, `items` (contract line items), `exchange_rate` {`base`, `target`, `rate`, `date`}, `external_references`.
+- **`contract_items`**: flattened from each contract's `items` array (no dedicated endpoint): `id`, `contract_id` (parent), `product_id`, `price` {`type`, `amount`, `interval_months`, `billing_scheme`}, `quantity`, `total_value`, `revenue_pattern`, `discount`, `tax_rate`, `start_date`, `end_date`, `status`, `amending`, `usage_minimum_commitment`, `external_references`, `fields`.
+- **`products`**: `id`, `name`, `description`, `status`, `price` {`type`, `amount`, `interval_months`, `billing_scheme`}, `revenue_pattern`, `include_in_arr_mrr`, `account_code`, `external_references`.
+- **`customers`**: `id`, `name`, `name_on_invoice`, `address` / `shipping_address` {`line1`, `line2`, `city`, `state`, `zip_code`, `country`}, `emails` {`email`, `type`}, `external_references`, `payment_terms`, `send_invoices_automatically`, `send_payment_reminders`, `fields`, `updated_at`.
 
 If the API returns list keys that differ (for example under `/tax-rates`), adjust `records_jsonpath` on the stream class.
 
