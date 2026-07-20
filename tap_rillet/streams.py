@@ -433,3 +433,221 @@ class ReportsIncomeStatementStream(RilletStream):
         if self.subsidiary:
             params["subsidiary_id"] = self.subsidiary
         return params
+
+
+_external_reference = th.ObjectType(
+    th.Property("type", th.StringType),
+    th.Property("id", th.StringType),
+    th.Property("url", th.StringType),
+)
+
+_billing_scheme = th.ObjectType(
+    th.Property("type", th.StringType),
+    th.Property("amount", _bill_amount),
+    th.Property("units", th.IntegerType),
+    th.Property("tiers", th.ArrayType(th.ObjectType())),
+)
+
+_price = th.ObjectType(
+    th.Property("type", th.StringType),
+    th.Property("amount", _bill_amount),
+    th.Property("interval_months", th.IntegerType),
+    th.Property("billing_scheme", _billing_scheme),
+)
+
+_discount = th.ObjectType(
+    th.Property("type", th.StringType),
+    th.Property("amount_off", th.StringType),
+    th.Property("percentage_off", th.NumberType),
+)
+
+_item_tax_rate = th.ObjectType(
+    th.Property("percentage", th.StringType),
+    th.Property("tax_amount", _bill_amount),
+    th.Property("country", th.StringType),
+    th.Property("type", th.StringType),
+    th.Property("description", th.StringType),
+)
+
+_usage_commitment = th.ObjectType(
+    th.Property("amount", _bill_amount),
+    th.Property("revenue_account", th.StringType),
+)
+
+_contract_item = th.ObjectType(
+    th.Property("id", th.StringType),
+    th.Property("product_id", th.StringType),
+    th.Property("price", _price),
+    th.Property("quantity", th.StringType),
+    th.Property("total_value", _bill_amount),
+    th.Property("revenue_pattern", th.StringType),
+    th.Property("discount", _discount),
+    th.Property("tax_rate", _item_tax_rate),
+    th.Property("start_date", th.StringType),
+    th.Property("end_date", th.StringType),
+    th.Property("status", th.StringType),
+    th.Property("amending", th.StringType),
+    th.Property("usage_minimum_commitment", _usage_commitment),
+    th.Property("external_references", th.ArrayType(_external_reference)),
+    th.Property("fields", th.ArrayType(_field)),
+)
+
+_invoicing = th.ObjectType(
+    th.Property("interval", th.StringType),
+    th.Property("payment_terms", th.IntegerType),
+    th.Property("day", th.IntegerType),
+    th.Property("month_day", th.StringType),
+)
+
+_usage_configuration = th.ObjectType(
+    th.Property(
+        "usage_invoicing",
+        th.ObjectType(
+            th.Property("frequency", th.StringType),
+            th.Property("payment_terms", th.IntegerType),
+            th.Property("invoice_date", th.StringType),
+            th.Property("cycle", th.StringType),
+        ),
+    ),
+    th.Property(
+        "minimum_commitment_invoicing",
+        th.ObjectType(
+            th.Property("frequency", th.StringType),
+            th.Property("payment_terms", th.IntegerType),
+        ),
+    ),
+    th.Property("minimum_commitment_cycle", th.StringType),
+    th.Property("contract_level_minimum_commitment", _usage_commitment),
+)
+
+_customer_address = th.ObjectType(
+    th.Property("line1", th.StringType),
+    th.Property("line2", th.StringType),
+    th.Property("city", th.StringType),
+    th.Property("state", th.StringType),
+    th.Property("zip_code", th.StringType),
+    th.Property("country", th.StringType),
+)
+
+_customer_email = th.ObjectType(
+    th.Property("email", th.StringType),
+    th.Property("type", th.StringType),
+)
+
+
+class ContractsStream(RilletStream):
+    """Stream for Rillet contracts (``/contracts``)."""
+
+    name = "contracts"
+    path = "/contracts"
+    records_jsonpath = "$.contracts[*]"
+    primary_keys = ["id"]
+
+    @property
+    def subsidiary(self) -> str:
+        return self.config.get("subsidiary")
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Contract identifier"),
+        th.Property("customer_id", th.StringType),
+        th.Property("subsidiary_id", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("status", th.StringType),
+        th.Property("start_date", th.StringType),
+        th.Property("end_date", th.StringType),
+        th.Property("close_date", th.StringType),
+        th.Property("total_value", _bill_amount),
+        th.Property("invoicing", _invoicing),
+        th.Property("usage_configuration", _usage_configuration),
+        th.Property("items", th.ArrayType(_contract_item)),
+        th.Property("exchange_rate", _bill_exchange_rate),
+        th.Property("external_references", th.ArrayType(_external_reference)),
+    ).to_dict()
+
+
+class ContractItemsStream(ContractsStream):
+    """Stream for Rillet contract line items.
+
+    There is no dedicated list endpoint for contract items; they are embedded
+    in each contract's ``items`` array, so this stream reads ``/contracts``
+    and flattens the items, attaching the parent ``contract_id``.
+    """
+
+    name = "contract_items"
+    primary_keys = ["id"]
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Contract item identifier"),
+        th.Property("contract_id", th.StringType, description="Parent contract"),
+        th.Property("product_id", th.StringType),
+        th.Property("price", _price),
+        th.Property("quantity", th.StringType),
+        th.Property("total_value", _bill_amount),
+        th.Property("revenue_pattern", th.StringType),
+        th.Property("discount", _discount),
+        th.Property("tax_rate", _item_tax_rate),
+        th.Property("start_date", th.StringType),
+        th.Property("end_date", th.StringType),
+        th.Property("status", th.StringType),
+        th.Property("amending", th.StringType),
+        th.Property("usage_minimum_commitment", _usage_commitment),
+        th.Property("external_references", th.ArrayType(_external_reference)),
+        th.Property("fields", th.ArrayType(_field)),
+    ).to_dict()
+
+    @override
+    def parse_response(self, response: requests.Response) -> Any:
+        """Flatten ``items`` out of each contract, tagging the contract id."""
+        for contract in response.json().get("contracts", []):
+            for item in contract.get("items") or []:
+                yield {**item, "contract_id": contract.get("id")}
+
+
+class ProductsStream(RilletStream):
+    """Stream for Rillet products (``/products``)."""
+
+    name = "products"
+    path = "/products"
+    records_jsonpath = "$.products[*]"
+    primary_keys = ["id"]
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Product identifier"),
+        th.Property("name", th.StringType),
+        th.Property("description", th.StringType),
+        th.Property("status", th.StringType),
+        th.Property("price", _price),
+        th.Property("revenue_pattern", th.StringType),
+        th.Property("include_in_arr_mrr", th.BooleanType),
+        th.Property("account_code", th.StringType),
+        th.Property("external_references", th.ArrayType(_external_reference)),
+    ).to_dict()
+
+
+class CustomersStream(RilletStream):
+    """Stream for Rillet customers (``/customers``)."""
+
+    name = "customers"
+    path = "/customers"
+    records_jsonpath = "$.customers[*]"
+    primary_keys = ["id"]
+    replication_key = "updated_at"
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType, description="Customer identifier"),
+        th.Property("name", th.StringType),
+        th.Property("name_on_invoice", th.StringType),
+        th.Property("address", _customer_address),
+        th.Property("shipping_address", _customer_address),
+        th.Property("emails", th.ArrayType(_customer_email)),
+        th.Property("external_references", th.ArrayType(_external_reference)),
+        th.Property("payment_terms", th.IntegerType),
+        th.Property("send_invoices_automatically", th.BooleanType),
+        th.Property("send_payment_reminders", th.BooleanType),
+        th.Property("fields", th.ArrayType(_field)),
+        th.Property(
+            "updated_at",
+            th.DateTimeType,
+            description="Incremental replication cursor",
+        ),
+    ).to_dict()
