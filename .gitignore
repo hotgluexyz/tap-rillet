@@ -144,3 +144,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Colocated smoke tests (hotglue-smoke-test)
+__tests__/**/test_runtime/
+__tests__/unsanitized_*_test/
+!__tests__/**/config.json
+!__tests__/**/expected_output/
+!__tests__/**/expected_output/**
