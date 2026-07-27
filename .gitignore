@@ -5,6 +5,8 @@ config.json
 # Hotglue tap exception dumps (may contain sensitive data)
 hg-tap-exception-*.json
 
+# Captured Singer output
+*.singer
 
 # macOS
 .DS_Store
@@ -144,8 +146,8 @@ dmypy.json
 .pyre/
 
 # Colocated smoke tests (hotglue-smoke-test)
-__tests__/**/test_runtime/
-__tests__/unsanitized_*_test/
-!__tests__/**/config.json
-!__tests__/**/expected_output/
-!__tests__/**/expected_output/**
+__smoke-tests__/**/test_runtime/
+__smoke-tests__/unsanitized_*_test/
+!__smoke-tests__/**/config.json
+!__smoke-tests__/**/expected_output/
+!__smoke-tests__/**/expected_output/**
