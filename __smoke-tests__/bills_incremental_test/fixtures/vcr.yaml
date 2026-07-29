@@ -1,0 +1,68 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+      X-Rillet-API-Version:
+      - '3'
+    method: GET
+    uri: https://sandbox.api.rillet.com/bills?limit=100&updated.gt=2026-07-24T17%3A03%3A01.874506Z
+  response:
+    body:
+      string: '{"bills": [], "pagination": {}}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2026 17:30:18 GMT
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains
+      Via:
+      - 1.1 b6caa49e59026d07a8e0859900a10572.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - aWbg-5sNUIQVkA1lty3MdM6CiY-q0g0yzwU3w0YXhkvGsYPe0o2DhA==
+      X-Amz-Cf-Pop:
+      - IAD55-P1
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Trace-Id:
+      - bf5f5342359491bc6c1da2ae4b11bae4
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '28'
+      vary:
+      - accept-encoding
+      x-amz-apigw-id:
+      - BBYeqFt4vHcEsNw=
+      x-amzn-Remapped-Connection:
+      - keep-alive
+      x-amzn-Remapped-Date:
+      - Fri, 24 Jul 2026 17:30:18 GMT
+      x-amzn-RequestId:
+      - c0cd4301-e2c4-41f1-aeb8-b80377bcdbbb
+    status:
+      code: 200
+      message: OK
+version: 1

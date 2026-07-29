@@ -1,0 +1,129 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.33.1
+      X-Rillet-API-Version:
+      - '3'
+    method: GET
+    uri: https://sandbox.api.rillet.com/bills?limit=100&updated.gt=2026-07-20T00%3A00%3A00Z
+  response:
+    body:
+      string: '{"bills": [{"vendor_id": "-Fallback-scrubbed-wrFGVTZdjeQldiAyOxaEEyrfVmKdAymweoAP",
+        "expense_number": "-Fallback-scrubbed-JDNnDOHRe", "items": [{"description":
+        "-Fallback-scrubbed-gRKrxYMbDEAoWCl", "account_code": "-Fallback-scrubbed-PhO",
+        "amount": {"amount": "-Fallback-scrubbed-DL", "currency": "-Fallback-scrubbed-xFT"},
+        "fields": [], "id": "-Fallback-scrubbed-ftpatxdCtmcLHHuRNyLgYswzkysNManLOGJJ"}],
+        "bill_date": "-Fallback-scrubbed-xvBLMIPYEl", "due_date": "-Fallback-scrubbed-cQtfJjNFdU",
+        "impact_date": "-Fallback-scrubbed-xvBLMIPYEl", "subsidiary_id": "-Fallback-scrubbed-qWxTAVVGYToDtmWFsTHUaGpwfbzyzATVEzfF",
+        "external_references": [{"type": "-Fallback-scrubbed-sGIrWiqvp", "id": "-Fallback-scrubbed-CxTXvITFAvZgsxVkUsGXysaKYJqndXTRZevU",
+        "url": "-Fallback-scrubbed-SfAtfFOmKWklAFNJrcJBKuWJzimmggWLFXpYEKXRGsuTahVqxHivmVMPiqfZheDStoIdqrOEsWVNqhNJtfLZ"}],
+        "id": "-Fallback-scrubbed-KIcutlsFHUgnCJvkUlPTCoFWwwBHilaOfLnR", "status":
+        "-Fallback-scrubbed-xZaMLC", "updated_at": "-Fallback-scrubbed-LWXDRntTwutfeDMQIvLANEYKyWv"},
+        {"vendor_id": "-Fallback-scrubbed-oZjwWBYFEddqMUDWwYOgDvasQuGvZLNuUGnV", "expense_number":
+        "-Fallback-scrubbed-FJDLRfzc", "items": [{"description": "-Fallback-scrubbed-gtlrcaeBDVNDpjwZvuy",
+        "account_code": "-Fallback-scrubbed-fepz", "amount": {"amount": "-Fallback-scrubbed-DL",
+        "currency": "-Fallback-scrubbed-xFT"}, "fields": [], "id": "-Fallback-scrubbed-PJgJHpRiRpgzjoOUANmWZzsNNKeFIGQEqUCj"}],
+        "bill_date": "-Fallback-scrubbed-xvBLMIPYEl", "due_date": "-Fallback-scrubbed-cQtfJjNFdU",
+        "impact_date": "-Fallback-scrubbed-xvBLMIPYEl", "subsidiary_id": "-Fallback-scrubbed-qWxTAVVGYToDtmWFsTHUaGpwfbzyzATVEzfF",
+        "external_references": [{"type": "-Fallback-scrubbed-sGIrWiqvp", "id": "-Fallback-scrubbed-eGKyCzMDcIaYJLgGbfRHBOYLQkATiFJwnAoz",
+        "url": "-Fallback-scrubbed-xEFaLmVZFynaiyncIUbgCPDBEwPTaZcJtJsAmkYIRLFXaNvdQSKpMgfUbzuEOpvlaFDwXaBgFaECliRuTIQE"}],
+        "id": "-Fallback-scrubbed-GVqHLHpTlQaXLDMBsknmeBpFRVUGxRvOJguW", "status":
+        "-Fallback-scrubbed-gYGlYVuKmtxgYn", "updated_at": "-Fallback-scrubbed-LbTvokBPpAHoiKDhKhmwzblSyL"},
+        {"vendor_id": "-Fallback-scrubbed-amJUnJGZCsqLJtKnlbMuGHItexXLrVmQTtwG", "expense_number":
+        "-Fallback-scrubbed-SWDHvNGw", "items": [{"description": "-Fallback-scrubbed-XbHTSUZF",
+        "account_code": "-Fallback-scrubbed-fepz", "amount": {"amount": "-Fallback-scrubbed-DL",
+        "currency": "-Fallback-scrubbed-xFT"}, "fields": [], "id": "-Fallback-scrubbed-eqWEynVIrpFUUoNENmAURSShixINKDHgKUMp"}],
+        "bill_date": "-Fallback-scrubbed-xvBLMIPYEl", "due_date": "-Fallback-scrubbed-cQtfJjNFdU",
+        "impact_date": "-Fallback-scrubbed-xvBLMIPYEl", "subsidiary_id": "-Fallback-scrubbed-qWxTAVVGYToDtmWFsTHUaGpwfbzyzATVEzfF",
+        "external_references": [{"type": "-Fallback-scrubbed-sGIrWiqvp", "id": "-Fallback-scrubbed-dxEjgjvJSBFadDgsijRJxLHIVtPcxUNMhBwu",
+        "url": "-Fallback-scrubbed-aHrPMavNUEgplTjafzWgTGWIiTpDBsKAIdvoTiEUwTPLLUOpdtHiURLOqHuAUBpjqHfyyRAJIrCzCEfoCbNG"}],
+        "id": "-Fallback-scrubbed-abymUpaJFCkqAyAcnqgtuFkIQfCcaRGLWqAT", "status":
+        "-Fallback-scrubbed-xZaMLC", "updated_at": "-Fallback-scrubbed-MUulzwdOaSRQlsqltZOgiiJmizM"},
+        {"vendor_id": "-Fallback-scrubbed-eOMqJcUvEfHJgkLBNofLfNCIMYBatsPLZRpB", "expense_number":
+        "-Fallback-scrubbed-neymdnnh", "items": [{"description": "-Fallback-scrubbed-XbHTSUZF",
+        "account_code": "-Fallback-scrubbed-fepz", "amount": {"amount": "-Fallback-scrubbed-DL",
+        "currency": "-Fallback-scrubbed-xFT"}, "fields": [], "id": "-Fallback-scrubbed-ddEWDNgddnXzkuFYbhAAvGQOnDKWweNSSofH"}],
+        "bill_date": "-Fallback-scrubbed-xvBLMIPYEl", "due_date": "-Fallback-scrubbed-cQtfJjNFdU",
+        "impact_date": "-Fallback-scrubbed-xvBLMIPYEl", "subsidiary_id": "-Fallback-scrubbed-qWxTAVVGYToDtmWFsTHUaGpwfbzyzATVEzfF",
+        "external_references": [{"type": "-Fallback-scrubbed-sGIrWiqvp", "id": "-Fallback-scrubbed-lmAuyHeUhinjsscqnAfRXzulhUUbCFsCsHGW",
+        "url": "-Fallback-scrubbed-mVRvqrDogPLPUtDlgLejNUQcIYqRhYPpVCzjojSSjGjtJWtUvcIfEcjKrMTnfqKnKNPIirDhUTAGsmkuvAeZ"}],
+        "id": "-Fallback-scrubbed-RnmVwoMkVpqugZyCtipeEAUJiALnBGRvGBFT", "status":
+        "-Fallback-scrubbed-xZaMLC", "updated_at": "-Fallback-scrubbed-rFMVLcAesKSYefqRBigssvvweQE"},
+        {"vendor_id": "-Fallback-scrubbed-nDUEVIDTApQZXNFijGWyphJExjivZklTVszA", "expense_number":
+        "-Fallback-scrubbed-L", "items": [{"account_code": "-Fallback-scrubbed-buYOXf",
+        "amount": {"amount": "-Fallback-scrubbed-tdfmU", "currency": "-Fallback-scrubbed-xFT"},
+        "fields": [], "id": "-Fallback-scrubbed-jGxAUdEXRGVKgWPykmVWCNZJvZqBRNxhYhiv"}],
+        "bill_date": "-Fallback-scrubbed-THeJWfkyjw", "due_date": "-Fallback-scrubbed-cQtfJjNFdU",
+        "impact_date": "-Fallback-scrubbed-THeJWfkyjw", "subsidiary_id": "-Fallback-scrubbed-qWxTAVVGYToDtmWFsTHUaGpwfbzyzATVEzfF",
+        "external_references": [], "id": "-Fallback-scrubbed-JsqzoBRHfDqNeBnfcerEIsiePHsMMLIbHeRd",
+        "status": "-Fallback-scrubbed-gYGlYVuKmtxgYn", "updated_at": "-Fallback-scrubbed-iwQeggpgkHJrpiUgXnucYaxnaNC"},
+        {"vendor_id": "-Fallback-scrubbed-xBysUOJFglyrhnOqxBJkuZxXqapLHQUQBMgB", "expense_number":
+        "-Fallback-scrubbed-wVSbCMbTky", "items": [{"description": "-Fallback-scrubbed-ZqwKBaejKYCVUQpaSOaSn",
+        "account_code": "-Fallback-scrubbed-oCDKq", "amount": {"amount": "-Fallback-scrubbed-xJFNeAx",
+        "currency": "-Fallback-scrubbed-xFT"}, "fields": [{"field_id": "-Fallback-scrubbed-tGtsWIyjSnFbEazYHMSOvshJzFdijSUQLSae",
+        "field_value_id": "-Fallback-scrubbed-illOFhawDgNTineDvzaJtUvYIMqVbQFdQghH"}],
+        "id": "-Fallback-scrubbed-wifAdLNLAIGqlUltQTDfVEBgfHePWrJXxkBU"}], "bill_date":
+        "-Fallback-scrubbed-wPAgrODbVw", "due_date": "-Fallback-scrubbed-rqEYtMdXCU",
+        "impact_date": "-Fallback-scrubbed-wPAgrODbVw", "subsidiary_id": "-Fallback-scrubbed-cYOhhQcLuDfjvAeTaOcxEAlopeTTLYfqbeLB",
+        "external_references": [], "exchange_rate": {"base": "-Fallback-scrubbed-xFT",
+        "target": "-Fallback-scrubbed-Vzg", "rate": "-Fallback-scrubbed-siKTNCxZvmFB",
+        "date": "-Fallback-scrubbed-wPAgrODbVw"}, "id": "-Fallback-scrubbed-iAhVRMXmgvllHHlYPKBfkkbZfWJcxghqjwvE",
+        "status": "-Fallback-scrubbed-xZaMLC", "updated_at": "-Fallback-scrubbed-GbRPrPvKbmvgTtBfSLloErXoPRk"}],
+        "pagination": {}}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2026 17:13:16 GMT
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains
+      Via:
+      - 1.1 7d30b02170e051a5fc315a8f4ba8c20c.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - qBPYUyo-hyZ9_6J60A-Jyz7Q5gj2j0OMFzYvrKDlbcVyxNwqJeLbHg==
+      X-Amz-Cf-Pop:
+      - IAD55-P1
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Trace-Id:
+      - 79df5c6661932e1c402a64956984b297
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '3871'
+      vary:
+      - accept-encoding
+      x-amz-apigw-id:
+      - BBV-8Fn4PHcERWA=
+      x-amzn-Remapped-Connection:
+      - keep-alive
+      x-amzn-Remapped-Date:
+      - Fri, 24 Jul 2026 17:13:16 GMT
+      x-amzn-RequestId:
+      - e6ab8e69-2507-4633-b0cd-6fc3e492e547
+    status:
+      code: 200
+      message: OK
+version: 1

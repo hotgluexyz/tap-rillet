@@ -1,0 +1,202 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.33.1
+      X-Rillet-API-Version:
+      - '3'
+    method: GET
+    uri: https://sandbox.api.rillet.com/reports/income-statement?from_date=2026-07-01&to_date=2026-07-24
+  response:
+    body:
+      string: '{"period": {"from_date": "-Fallback-scrubbed-UWTFQmGwZV", "to_date":
+        "-Fallback-scrubbed-zohDouqcsU"}, "currency": "-Fallback-scrubbed-IOP", "breakdowns":
+        [{"type": "-Fallback-scrubbed-xzhBsO", "name": "Kimberly Hernandez"}], "sections":
+        [{"name": "Daniel Andrews", "totals": [{"amount": {"amount": "-Fallback-scrubbed-khTMghuaC",
+        "currency": "-Fallback-scrubbed-IOP"}}], "groups": [], "accounts": [{"id":
+        "-Fallback-scrubbed-bFiZWJsktgEJQkVPNdBgzxcOsgqtVvoGzXRv", "code": "-Fallback-scrubbed-cHlrbn",
+        "name": "Kimberly Bernard", "balances": [{"amount": {"amount": "-Fallback-scrubbed-rm",
+        "currency": "-Fallback-scrubbed-IOP"}}]}, {"id": "-Fallback-scrubbed-HIrqZStbmabQKEzBTjoEKlaVpDPFIDpuRNLM",
+        "code": "-Fallback-scrubbed-CMNNb", "name": "Gerald Alvarez", "balances":
+        [{"amount": {"amount": "-Fallback-scrubbed-WVJzXitR", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-TwzCvDKTeBnvpVQvYnlaauvXLQfcDFzgOOVB", "code":
+        "-Fallback-scrubbed-hsWVk", "name": "Kyle Hanson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-KIVs", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-vrPHgOuFQuknEZiaRSdpJGGcObJZoXNTnxam", "code":
+        "-Fallback-scrubbed-rcrmk", "name": "Catherine Crosby", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-pTaFhrraGfSskbkJdkggLLQwekYNhbNSJLQL", "code":
+        "-Fallback-scrubbed-gqtfK", "name": "Kim Peterson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-yNeTgEJnb", "currency": "-Fallback-scrubbed-IOP"}}]}]},
+        {"name": "Kyle Rodriguez", "totals": [{"amount": {"amount": "-Fallback-scrubbed-xmS",
+        "currency": "-Fallback-scrubbed-IOP"}}], "groups": [{"name": "Marvin Burton",
+        "totals": [{"amount": {"amount": "-Fallback-scrubbed-xmS", "currency": "-Fallback-scrubbed-IOP"}}],
+        "accounts": [{"id": "-Fallback-scrubbed-XKaYVhYfzHlnwmTNrETaiaQVAWNiDWxibYHW",
+        "code": "-Fallback-scrubbed-Ohquk", "name": "Lonnie Wilson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-HFFjKtHsFREOlkMcZwsiJqLoAtruyIsYggfI", "code":
+        "-Fallback-scrubbed-nJrdx", "name": "Jennifer Holmes", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-rqZlHREjOhcGAzSRDRqbGvRAnHXrETZZPmzV", "code":
+        "-Fallback-scrubbed-gRkqO", "name": "Lance Carter", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-xmS", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-SJInXFkpXbgZEJwjdYfeUsYapzTbjJmNOFbO", "code":
+        "-Fallback-scrubbed-HEWMu", "name": "Cameron Adams", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]}],
+        "groups": []}, {"name": "Kyle Blackwell", "totals": [{"amount": {"amount":
+        "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}], "accounts":
+        [{"id": "-Fallback-scrubbed-ZinfSMsAhAdoRGnnXYKoqOIZwfwSeFZzQcln", "code":
+        "-Fallback-scrubbed-Dbxtj", "name": "Chelsea Skinner", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-CDfQvNBTwWqsPccPAGYvCYrOFkdRQuDiuCtF", "code":
+        "-Fallback-scrubbed-nmjFi", "name": "Dennis Haas", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]}],
+        "groups": []}], "accounts": []}, {"name": "Raymond Norman", "totals": [{"amount":
+        {"amount": "-Fallback-scrubbed-ESfmXDlEg", "currency": "-Fallback-scrubbed-IOP"}}],
+        "groups": [{"name": "Sergio Kelley", "totals": [{"amount": {"amount": "-Fallback-scrubbed-KIVs",
+        "currency": "-Fallback-scrubbed-IOP"}}], "accounts": [{"id": "-Fallback-scrubbed-pdTguINIhFpmyXukPYHvzfqgYNQJunoyVyMn",
+        "code": "-Fallback-scrubbed-bwyQx", "name": "Teresa Morgan", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-acYARcbVECgHXVWtkRAAsAzSvLItohsPxSmu", "code":
+        "-Fallback-scrubbed-KkkYM", "name": "Pamela Pugh", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-sEoyIxBYWJWceGkSGDoFSEtNWPEkphApwjsi", "code":
+        "-Fallback-scrubbed-RDmWR", "name": "Christina Rush", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-AsxAqbRRmYmlCzrDaHomWsJtRaHLCNBLCARj", "code":
+        "-Fallback-scrubbed-Wmdfl", "name": "Denise Reed", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-IPhhBjcuGYppDTPoGaQBpnFZeiEzBnqZiQYO", "code":
+        "-Fallback-scrubbed-ndrca", "name": "Kayla Li", "balances": [{"amount": {"amount":
+        "-Fallback-scrubbed-KIVs", "currency": "-Fallback-scrubbed-IOP"}}]}], "groups":
+        []}, {"name": "Susan Brown", "totals": [{"amount": {"amount": "-Fallback-scrubbed-mPpdFcEtn",
+        "currency": "-Fallback-scrubbed-IOP"}}], "accounts": [{"id": "-Fallback-scrubbed-ECRtcwrmwmpmLhAWpjSoVyEaJPRlBpiBxrjW",
+        "code": "-Fallback-scrubbed-iAjig", "name": "David Turner", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-nwDqicwoGqVGgzbecKduOzjVxlcasKsUlabv", "code":
+        "-Fallback-scrubbed-XdLwS", "name": "Gary Warner", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-hMcCVVCaA", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-CvwhmZOOCxHhpJEOCDhCgWRApeeytumxwpNn", "code":
+        "-Fallback-scrubbed-edXxL", "name": "Brent Lawson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-kXBEcMBoYvmeqvaiWBQWTGxiTjeXyfRwpxtM", "code":
+        "-Fallback-scrubbed-xeETH", "name": "Peter Jensen", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-XkeMOeTeDXoXiUdeJRpmdPNoPNtfdGyzElSy", "code":
+        "-Fallback-scrubbed-hWlET", "name": "James Hunt Jr.", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-RYZVMzlHXzewWqTRddXYTstNyYuYPLwwqzaa", "code":
+        "-Fallback-scrubbed-sFZGz", "name": "Kyle Hanson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-cuiSRglocLrZehWPYmpJOmJWBDrzWcGgyuGV", "code":
+        "-Fallback-scrubbed-BMaMo", "name": "Caroline Martin", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-pTFQzeSrRbKwbTWOPEIiWyMkqBjNOtzRqLky", "code":
+        "-Fallback-scrubbed-cDILQ", "name": "Jessica Patterson", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-IpntQUKoABGrcFqOGqkiKwpWXncBwuHifPvH", "code":
+        "-Fallback-scrubbed-GbShq", "name": "Michael Maldonado", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-KLlCnZOFqXghDlQLaVdkAtSvPmazGISuiwnU", "code":
+        "-Fallback-scrubbed-nkRdH", "name": "Jennifer Medina", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-heAw", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-VrtNNimNLLxWjUqUfoHhwdcSHmFdoUluCPlj", "code":
+        "-Fallback-scrubbed-qYFNl", "name": "Nancy Gomez", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-baDPOgPLztlxpGfVVuxaYYqARLwHoQeKDzqI", "code":
+        "-Fallback-scrubbed-QJEXy", "name": "Michael Montes", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-lphXFIPiOLdeRMuoWAHOvnGINcfhupxgrdFU", "code":
+        "-Fallback-scrubbed-KWbYP", "name": "Melinda Vaughan", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-DYIWQ", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-xlOKNKOBnmsSULxavMwwNGRpiQjRuHTycxCH", "code":
+        "-Fallback-scrubbed-spGMA", "name": "Stephanie Schultz", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]}],
+        "groups": []}], "accounts": [{"id": "-Fallback-scrubbed-swXjlazlkmCaspHjUZJDFXJLXlGDEAnBlsNO",
+        "code": "-Fallback-scrubbed-CglTFR", "name": "Jeremy Smith", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-tLgmESJxQMgtaABovvJtKRZrDKjOjKeanDqk", "code":
+        "-Fallback-scrubbed-mZR", "name": "Latoya Bailey", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-rm", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-czQTBeJbpeqPjtSZdbCCRFlpJGBPWrVOhCLb", "code":
+        "-Fallback-scrubbed-cNse", "name": "Nicole Lang", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-Xvm", "currency": "-Fallback-scrubbed-IOP"}}]}]},
+        {"name": "Robert White", "totals": [{"amount": {"amount": "-Fallback-scrubbed-jdwzeKUkJ",
+        "currency": "-Fallback-scrubbed-IOP"}}], "groups": [], "accounts": [{"id":
+        "-Fallback-scrubbed-zZAvzDZLRSLAZGjRnIBKLgdhcQsSUoviCmhZ", "code": "-Fallback-scrubbed-fr",
+        "name": "Dr. Cassie Grant DDS", "balances": [{"amount": {"amount": "-Fallback-scrubbed-I",
+        "currency": "-Fallback-scrubbed-IOP"}}]}, {"id": "-Fallback-scrubbed-qNVWPkWvsZUwmIGrDUQnhsYcfEBfIAgkqCXW",
+        "code": "-Fallback-scrubbed-MdTQc", "name": "Jeffrey Brown", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-etBXQDJoskZmnEBaxrmyvCMBoZPzYlPpYnfL", "code":
+        "-Fallback-scrubbed-gYZwq", "name": "Robert Reynolds", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-EeDMNWOgJWpLlgzFgSJlxnujMwVfhioNjzlo", "code":
+        "-Fallback-scrubbed-cCcUZ", "name": "Joshua Hughes", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-lJFUSMQfdPpVUJlMDLPJjhbgdSPYjaWnCKZO", "code":
+        "-Fallback-scrubbed-ZXpk", "name": "Mrs. Kathryn Brown", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-I", "currency": "-Fallback-scrubbed-IOP"}}]},
+        {"id": "-Fallback-scrubbed-gucEDLxoKGgtyjZQzLDUNWqOUenIxAUlvYzy", "code":
+        "-Fallback-scrubbed-SUyT", "name": "Christopher Gay", "balances": [{"amount":
+        {"amount": "-Fallback-scrubbed-jdwzeKUkJ", "currency": "-Fallback-scrubbed-IOP"}}]}]}],
+        "summaries": [{"name": "Lisa Shepard", "amounts": [{"amount": {"amount": "-Fallback-scrubbed-oGPHYGeAt",
+        "currency": "-Fallback-scrubbed-IOP"}}], "margins": [{"value": -8629071.18865584}]},
+        {"name": "Brianna Morgan", "amounts": [{"amount": {"amount": "-Fallback-scrubbed-waLTzuDUE",
+        "currency": "-Fallback-scrubbed-IOP"}}], "margins": [{"value": 8055.26986088657}]}]}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 24 Jul 2026 17:24:43 GMT
+      Expires:
+      - '0'
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains
+      Via:
+      - 1.1 d524fd53067e060a838db45329abc4c0.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - TMUqzQfqqnz2A0INMCYSe94Uu6kHKdjEvg7zkLU3t1LuRyTDgTK0MQ==
+      X-Amz-Cf-Pop:
+      - IAD55-P1
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Trace-Id:
+      - 5e734d313c08bcdbece0b11f2bd04093
+      X-XSS-Protection:
+      - '0'
+      content-length:
+      - '6899'
+      vary:
+      - accept-encoding
+      x-amz-apigw-id:
+      - BBXqVGdrPHcEOQA=
+      x-amzn-Remapped-Connection:
+      - keep-alive
+      x-amzn-Remapped-Date:
+      - Fri, 24 Jul 2026 17:24:43 GMT
+      x-amzn-RequestId:
+      - 270a8ba5-be06-49a2-9ef6-bae635044aa7
+    status:
+      code: 200
+      message: OK
+version: 1
