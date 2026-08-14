@@ -28,7 +28,7 @@ license = "MIT"
 license-files = [ "LICENSE" ]
 requires-python = ">=3.10"
 dependencies = [
-    "hotglue-singer-sdk @ git+https://github.com/hotgluexyz/HotglueSingerSDK.git@refs/heads/hgi-10790",
+    "hotglue-singer-sdk @ git+https://github.com/hotgluexyz/HotglueSingerSDK.git@hgi-10790",
     "requests~=2.33.0",
     "typing-extensions>=4.5.0; python_version < '3.13'",
 ]
