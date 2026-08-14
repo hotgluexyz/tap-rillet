@@ -96,6 +96,7 @@ class RilletStream(RESTStream):
         Returns:
             A dictionary of URL query parameters.
         """
+        # commit to force reinstall dependencies
         params: dict[str, Any] = {}
         if self.page_size:
             params["limit"] = self.page_size
