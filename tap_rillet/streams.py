@@ -462,6 +462,7 @@ class BankAccountsStream(RilletStream):
     path = "/bank-accounts"
     records_jsonpath = "$.accounts[*]"
     primary_keys = ["id"]
+    next_page_token_jsonpath = None
 
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
