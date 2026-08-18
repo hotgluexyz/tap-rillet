@@ -453,3 +453,25 @@ class CustomersStream(RilletStream):
             description="Incremental replication cursor",
         ),
     ).to_dict()
+
+
+class BankAccountsStream(RilletStream):
+    """Stream for Rillet bank accounts (``/bank-accounts``)."""
+
+    name = "bank_accounts"
+    path = "/bank-accounts"
+    records_jsonpath = "$.accounts[*]"
+    primary_keys = ["id"]
+
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("currency", th.StringType),
+        th.Property("bank_name", th.StringType),
+        th.Property("subsidiary_id", th.StringType),
+        th.Property("account_code", th.StringType),
+        th.Property("mask", th.StringType),
+        th.Property("transactions_start_date", th.DateType),
+        th.Property("status", th.StringType),
+    ).to_dict()
+
