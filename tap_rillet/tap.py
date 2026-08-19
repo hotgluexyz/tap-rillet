@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from hotglue_singer_sdk import Tap, Stream
 from hotglue_singer_sdk import typing as th  # JSON schema typing helpers
+from hotglue_singer_sdk.helpers.capabilities import AlertingLevel
+from hotglue_singer_sdk.tap_base import InvalidCredentialsError
 
 from typing_extensions import override
 
@@ -46,6 +48,11 @@ class TapRillet(Tap):
     """Singer tap for Rillet."""
 
     name = "tap-rillet"
+
+    alerting_level = AlertingLevel.ERROR
+    exception_alerting_level_map = {
+        InvalidCredentialsError: AlertingLevel.NONE,
+    }
 
     config_jsonschema = th.PropertiesList(
         th.Property(
