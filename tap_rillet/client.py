@@ -11,6 +11,8 @@ from hotglue_singer_sdk.authenticators import BearerTokenAuthenticator
 from hotglue_singer_sdk.helpers._network import giveup_oserror_not_transient_network
 from hotglue_singer_sdk.helpers.jsonpath import extract_jsonpath
 from hotglue_singer_sdk.streams import RESTStream
+from hotglue_singer_sdk.tap_base import InvalidCredentialsError
+from hotglue_singer_sdk.exceptions import RetriableAPIError
 from typing_extensions import override
 
 
@@ -65,6 +67,22 @@ class RilletStream(RESTStream):
             "Accept": "application/json",
             "Content-Type": "application/json",
         }
+
+    @override
+    def validate_response(self, response: requests.Response) -> None:
+        if response.status_code == 401:
+            raise InvalidCredentialsError(self.response_error_message(response))
+        elif response.status_code == 429:
+            raise requests.exceptions.RetryError(
+                self.response_error_message(response)
+            )
+        elif (
+            response.status_code in self.extra_retry_statuses
+            or 500 <= response.status_code < 600
+        ):
+            raise RetriableAPIError(self.response_error_message(response), response)
+        else:
+            super().validate_response(response)
 
     @override
     def get_next_page_token(
