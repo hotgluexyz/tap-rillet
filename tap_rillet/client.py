@@ -72,10 +72,6 @@ class RilletStream(RESTStream):
     def validate_response(self, response: requests.Response) -> None:
         if response.status_code == 401:
             raise InvalidCredentialsError(self.response_error_message(response))
-        elif response.status_code == 429:
-            raise requests.exceptions.RetryError(
-                self.response_error_message(response)
-            )
         elif (
             response.status_code in self.extra_retry_statuses
             or 500 <= response.status_code < 600
