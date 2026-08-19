@@ -9,6 +9,7 @@ from typing_extensions import override
 
 from tap_rillet.streams import (
     AccountsStream,
+    BankAccountsStream,
     BillsStream,
     FieldsStream,
     TaxRatesStream,
@@ -37,6 +38,7 @@ STREAM_TYPES = [
     ContractItemsStream,
     ProductsStream,
     CustomersStream,
+    BankAccountsStream,
 ]
 
 
