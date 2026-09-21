@@ -142,7 +142,6 @@ class FieldsStream(RilletStream):
     path = "/fields"
     records_jsonpath = "$.fields[*]"
     primary_keys = ["id"]
-    replication_key = "updated_at"
     schema = th.PropertiesList(
         th.Property("id", th.StringType, description="Field identifier"),
         th.Property("name", th.StringType),
