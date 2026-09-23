@@ -9,6 +9,7 @@ from hotglue_singer_sdk.tap_base import InvalidCredentialsError
 
 from typing_extensions import override
 
+from tap_rillet.auth import RilletAccessTokenAuthenticator
 from tap_rillet.streams import (
     AccountsStream,
     BankAccountsStream,
@@ -86,6 +87,11 @@ class TapRillet(Tap):
             default=None,
         ),
     ).to_dict()
+
+    @classmethod
+    def access_token_support(cls, connector=None):
+        """Return API-key-backed access-token support for Rillet."""
+        return RilletAccessTokenAuthenticator, None
 
     @override
     def discover_streams(self) -> list[Stream]:
