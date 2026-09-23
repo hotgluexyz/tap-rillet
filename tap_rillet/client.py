@@ -52,7 +52,8 @@ class RilletStream(RESTStream):
         Returns:
             An authenticator instance.
         """
-        return BearerTokenAuthenticator(stream=self, token=self.config["api_key"])
+        token = self.config.get("access_token") or self.config["api_key"]
+        return BearerTokenAuthenticator(stream=self, token=token)
 
     @override
     @property

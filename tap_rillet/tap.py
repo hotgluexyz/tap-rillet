@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from hotglue_singer_sdk import Tap, Stream
 from hotglue_singer_sdk import typing as th  # JSON schema typing helpers
+from hotglue_singer_sdk.authenticators import OAuthAuthenticator
 from hotglue_singer_sdk.helpers.capabilities import AlertingLevel
 from hotglue_singer_sdk.tap_base import InvalidCredentialsError
 
 from typing_extensions import override
 
+from tap_rillet.auth import RilletAuthenticator
 from tap_rillet.streams import (
     AccountsStream,
     BankAccountsStream,
@@ -68,6 +72,11 @@ class TapRillet(Tap):
             description="The API key to authenticate against Rillet",
         ),
         th.Property(
+            "access_token",
+            th.StringType,
+            description="Populated automatically from api_key via access_token_support.",
+        ),
+        th.Property(
             "sandbox",
             th.BooleanType,
             description="Use the Rillet sandbox environment",
@@ -91,6 +100,14 @@ class TapRillet(Tap):
     def discover_streams(self) -> list[Stream]:
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
+
+    @classmethod
+    def access_token_support(
+        cls,
+        connector: Any = None,
+    ) -> tuple[type[OAuthAuthenticator], str | None]:
+        """Return authenticator class and dummy endpoint for API key aliasing."""
+        return RilletAuthenticator, None
 
 
 if __name__ == "__main__":
