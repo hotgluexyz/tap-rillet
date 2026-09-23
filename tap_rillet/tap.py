@@ -25,6 +25,7 @@ from tap_rillet.streams import (
     ProductsStream,
     CustomersStream,
 )
+from tap_rillet.auth import RilletAuthenticator
 
 STREAM_TYPES = [
     BillsStream,
@@ -91,6 +92,26 @@ class TapRillet(Tap):
     def discover_streams(self) -> list[Stream]:
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
+
+    @classmethod
+    def access_token_support(cls, connector=None):
+        """Return (authenticator_class, auth_endpoint). Use connector.config when connector (tap instance) is provided."""
+        authenticator = RilletAuthenticator
+        default_url = "https://api.rillet.com/oauth/token"
+
+        if connector is not None and getattr(connector, "config", None) is not None:
+            oauth_url = connector.config.get("auth_url") or default_url
+        else:
+            oauth_url = default_url
+
+        # Ensure the URL ends with /token
+        if oauth_url and not oauth_url.endswith("/token"):
+            if oauth_url.endswith("/"):
+                oauth_url += "token"
+            else:
+                oauth_url += "/token"
+
+        return authenticator, oauth_url
 
 
 if __name__ == "__main__":
