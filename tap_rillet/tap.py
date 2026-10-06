@@ -49,6 +49,10 @@ class TapRillet(Tap):
 
     name = "tap-rillet"
 
+    # Stream names reported by `--about`. The catalog is static, so this is derived from
+    # STREAM_TYPES rather than hand-maintained, and discovery remains authoritative.
+    static_stream_names = [stream.name for stream in STREAM_TYPES]
+
     alerting_level = AlertingLevel.ERROR
     exception_alerting_level_map = {
         InvalidCredentialsError: AlertingLevel.NONE,
