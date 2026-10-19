@@ -81,7 +81,7 @@ tap-rillet --help
 | Setting | Type | Required | Default | Description |
 | ------- | ---- | -------- | ------- | ----------- |
 | `api_key` | string | yes | — | Rillet API key (Bearer token). |
-| `access_token` | string | no | — | Populated from `api_key` by Hotglue's access-token flow. |
+| `access_token` | string | no | — | Sensitive credential populated from `api_key` by Hotglue's access-token flow; protect it like `api_key`. |
 | `start_date` | string (datetime) | no | `2000-01-01T00:00:00Z` | Earliest `updated.gt` lower bound when no bookmark exists. |
 | `sandbox` | boolean | no | `false` | Use `https://sandbox.api.rillet.com`. |
 | `api_version` | string | no | `3` | Sent as `X-Rillet-API-Version`. |
