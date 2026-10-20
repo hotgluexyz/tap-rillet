@@ -24,10 +24,16 @@ def test_standard_tap_features(standard_tap_test):
 
 
 def test_access_token_support_copies_api_key(tmp_path):
-    """Access-token support returns Rillet's static API key without rewriting config."""
+    """Access-token support returns Rillet's static API key."""
     config_path = tmp_path / "config.json"
     config_path.write_text(json.dumps({"api_key": "rillet-api-key"}))
     tap = TapRillet(config=config_path)
 
     assert TapRillet.fetch_access_token(tap) == {"access_token": "rillet-api-key"}
-    assert json.loads(config_path.read_text()) == {"api_key": "rillet-api-key"}
+    assert json.loads(config_path.read_text()) == {
+        "api_key": "rillet-api-key",
+        "start_date": "2000-01-01T00:00:00Z",
+        "sandbox": False,
+        "api_version": "3",
+        "access_token": "rillet-api-key",
+    }

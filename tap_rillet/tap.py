@@ -69,11 +69,6 @@ class TapRillet(Tap):
             description="The API key to authenticate against Rillet",
         ),
         th.Property(
-            "access_token",
-            th.StringType,
-            description="Populated from api_key for Hotglue access-token support.",
-        ),
-        th.Property(
             "sandbox",
             th.BooleanType,
             description="Use the Rillet sandbox environment",
